@@ -6,7 +6,7 @@ const path = require('path');
 const { WebSocketServer } = require('ws');
 
 const PORT = process.env.PORT || 3000;             // cPanel/Passenger kendi verir
-const HOST = process.env.HOST || '127.0.0.1';      // Caddy/Nginx arkasında dışarı kapalı kalır
+const HOST = process.env.HOST || '0.0.0.0';   // Render vb. için dışarıya açık; VPS'te servis dosyası 127.0.0.1 verir
 const PUB = path.join(__dirname, 'public');
 const MAX_ROOM = Number(process.env.MAX_ROOM) || 32; // oda başına oyuncu
 const TOPICS = new Set(['shot', 'hit', 'kill', 'chat']);
@@ -15,7 +15,7 @@ const MIME = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; cha
 // ---- statik dosyalar ----
 const server = http.createServer((req, res) => {
   const url = (req.url || '/').split('?')[0];
-  if (url.endsWith('/health')) { res.writeHead(200, { 'Content-Type': 'text/plain' }); return res.end('ok ' + wss.clients.size + ' oyuncu'); }
+  if (url.endsWith('/health')) { res.writeHead(200, { 'Content-Type': 'text/plain', 'Access-Control-Allow-Origin': '*' }); return res.end('ok ' + wss.clients.size + ' oyuncu'); }
   let p;
   try { p = decodeURIComponent(url); } catch { res.writeHead(400); return res.end(); }
   if (p === '' || p.endsWith('/')) p = '/index.html';

@@ -1,0 +1,9 @@
+{
+  "name": "neon-korfez",
+  "version": "1.0.0",
+  "description": "Neon Körfez - 37dervis yapımı çok oyunculu tarayıcı oyunu",
+  "main": "server.js",
+  "scripts": { "start": "node server.js" },
+  "engines": { "node": ">=18" },
+  "dependencies": { "ws": "^8.18.0" }
+}
